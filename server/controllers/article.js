@@ -5,6 +5,7 @@
 import Article from '../models/article'
 import ApiError from '../error/ApiError'
 import ApiErrorNames from '../error/ApiErrorNames'
+import util from '../utils'
 
 async function getArticleList(ctx, type) {
   let page = parseInt(ctx.query.page) || 1
@@ -31,74 +32,69 @@ async function getArticleList(ctx, type) {
   const limit = 10
   let skip = limit * (page - 1)
   let sort = {createTime: -1}
-  let articleList = await Article.find(queryConditions).limit(limit).skip(skip).sort(sort).catch(err => {
+  let articleList = await Article.find(queryConditions).limit(limit).skip(skip).sort(sort).populate('tags').catch(err => {
     throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
   })
-  let count = await Article.count(queryConditions).catch(() => {
+  let totalLength = await Article.count(queryConditions).catch(() => {
     throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
   })
-  let totalPage = count === 0 ? 0 : Math.ceil(count / limit)
+  let totalPage = totalLength === 0 ? 0 : Math.ceil(totalLength / limit)
   let hasNextPage = page < totalPage
   let hasPrevPage = page !== 1 && page <= totalPage
-  ctx.body = {articleList, totalPage, hasNextPage, hasPrevPage}
-}
-
-// 验证文章ID
-function vaildArticleId(id) {
-  // mongodb的`_id`的长度为24
-  if (id.length !== 24 || !id) {
-    throw new ApiError(ApiErrorNames.PARAMETER_INVAILD)
-  }
+  ctx.body = {articleList, totalPage, hasNextPage, hasPrevPage, totalLength}
 }
 
 export default {
-  async getFrontArticleList(ctx) {
+  async getArticleList(ctx) {
     await getArticleList(ctx, 'POST')
   },
+  async getDraftList (ctx) {
+    await getArticleList(ctx, 'DRAFT')
+  },
 
-  async getFrontArticle (ctx) {
+  async getArticle (ctx) {
     let {id} = ctx.params
-    vaildArticleId(id)
-    let article = await Article.findById(id).catch(err => {
+    util.verifyId(id)
+    let article = await Article.findById(id).populate('tags').catch(err => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     if (!article) {
       throw new ApiError(ApiErrorNames.ARTICLE_NOT_EXIST)
     }
     // 更新文章访问次数
-    await Article.findByIdAndUpdate(id, {visitCount: ++article.visitCount})
+    await Article.findByIdAndUpdate(id, {visits: ++article.visits})
     ctx.body = article
   },
 
   async createArticle (ctx) {
-    let {title, content, status} = ctx.request.body
-    ctx.body = await Article.create({title, content, status}).catch(() => {
+    let {title, content, status, tags} = ctx.request.body
+    ctx.body = await Article.create({title, content, status, tags}).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
   },
 
   async deleteArticle (ctx) {
     let {id} = ctx.params
-    vaildArticleId(id)
-    let count = await Article.count({_id: id}).catch(() => {
+    util.verifyId(id)
+    let deleteCount = await Article.findByIdAndRemove(id).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
-    if (count === 0) {
+    if (!deleteCount) {
       throw new ApiError(ApiErrorNames.ARTICLE_NOT_EXIST)
     }
-    await Article.remove({_id: id}).catch(() => {
-      throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
-    })
   },
 
   async updateArticle (ctx) {
     let {id} = ctx.params
     let {title, content, status} = ctx.request.body
-    vaildArticleId(id)
-    await Article.update({_id: id}, {
+    util.verifyId(id)
+    let updateCount = await Article.findByIdAndUpdate(id, {
       title, content, status, updateTime: Date.now()
     }).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
+    if (!updateCount) {
+      throw new ApiError(ApiErrorNames.ARTICLE_NOT_EXIST)
+    }
   }
 }

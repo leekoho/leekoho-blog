@@ -2,7 +2,9 @@
  * Created by leekoho on 2018/1/16.
  */
 import User from '../models/user'
+import util from '../utils'
 import config from '../config'
+import md5 from 'md5'
 import jwt from 'jsonwebtoken'
 import ApiError from '../error/ApiError'
 import ApiErrorNames from '../error/ApiErrorNames'
@@ -13,28 +15,29 @@ export default {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     if (user.length === 0) {
+      let salt = util.randomWord(false, 16)
+      let password = md5(md5(config.admin.password) + salt)
       user = User.create({
         username: config.admin.username,
-        password: config.admin.password
+        password, salt
       })
     }
   },
   async signIn (ctx) {
-    let {username, password} = ctx.request.body
-    const user = await User.findOne({username: username}).catch(() => {
+    let {loginName, password} = ctx.request.body
+    const user = await User.findOne({loginName: loginName}).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     if (user) {
-      if (user.password === password) {
+      if (user.password === md5(password + user.salt)) {
+        let {_id, username} = user
         const token = jwt.sign({
-          uid: user._id,
-          name: user.username,
+          _id, username,
           // 有效时间
           exp: config.jwt.expiration
         }, config.jwt.secret)
         ctx.body = {
-          username: user.name,
-          token
+          _id, username, token
         }
       } else {
         throw new ApiError(ApiErrorNames.USER_PWD_ERROR)
@@ -53,16 +56,18 @@ export default {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     if (user) {
-      if (user.password === oldPassword) {
-        await User.update({
+      if (md5(oldPassword + user.salt) === user.password) {
+        await User.findByIdAndUpdate(id, {
           username,
-          password: newPassword
+          password: md5(newPassword + user.salt)
         }).catch(() => {
           throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
         })
       } else {
         throw new ApiError(ApiErrorNames.USER_OLD_PWD_ERROR)
       }
+    } else {
+      throw new ApiError(ApiErrorNames.USER_NOT_EXIST)
     }
   }
 }

@@ -16,9 +16,9 @@ const config = {
     }
   },
   jwt: {
-    secret: 'leekoho--blog',
-    // token过期时间 => 24小时
-    expiration: Math.floor(Date.now() / 1000) + 24 * 3600
+    secret: 'leekoho-blog',
+    // token过期时间 => 24小时 * 30
+    expiration: Math.floor(Date.now() / 1000) + 24 * 3600 * 30
   },
   admin: {
     username: 'leekoho',

@@ -4,15 +4,10 @@
 import $ from '../../controllers/article'
 import verify from '../../middleware/verify'
 
-const frontPrefix = '/front'
-
 export default async(router) => {
-  // router.get('/article', $.getArticlesList)
-  // router.post('/article', verify, $.createArticle)
-  // router.delete('/article/:id', verify, $.deleteArticle)
-  // router.patch('/article/:id', verify, $.updateArticle)
-  router.get('/article', $.getFrontArticleList)
-  router.get('/article/:id', $.getFrontArticle)
+  router.get('/article', $.getArticleList)
+  router.get('/draft', verify, $.getDraftList)
+  router.get('/article/:id', $.getArticle)
   router.post('/article', $.createArticle)
   router.delete('/article/:id', verify, $.deleteArticle)
   router.patch('/article/:id', verify, $.updateArticle)
