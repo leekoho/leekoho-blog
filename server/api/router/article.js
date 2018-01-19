@@ -7,6 +7,7 @@ import verify from '../../middleware/verify'
 export default async(router) => {
   router.get('/article', $.getArticleList)
   router.get('/draft', verify, $.getDraftList)
+  router.get('/allArticle', verify, $.getAllArticleList)
   router.get('/article/:id', $.getArticle)
   router.post('/article', $.createArticle)
   router.delete('/article/:id', verify, $.deleteArticle)

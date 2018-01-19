@@ -21,6 +21,6 @@ export default async(ctx, next) => {
     }
     throw new ApiError(ApiErrorNames.TOKEN_INVAILD)
   }
-  console.log("鉴权成功")
+  console.log('鉴权成功')
   await next()
 }

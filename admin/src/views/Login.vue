@@ -1,5 +1,7 @@
 <template lang="html">
-  <div>admin home</div>
+  <div class="login">
+    admin login
+  </div>
 </template>
 
 <script lang="babel" type="es6">
@@ -16,5 +18,6 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass">
-
+  .login
+    background: $green-light
 </style>

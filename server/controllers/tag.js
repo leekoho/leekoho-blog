@@ -10,19 +10,21 @@ import util from '../utils'
 export default {
   async getTagList (ctx) {
     let sort = {createTime: -1}
-    let tagList = await Tag.find().sort(sort)
-    ctx.body = tagList
+    ctx.body = await Tag.find().sort(sort).catch(() => {
+      throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
+    })
   },
 
-  async getTag (ctx) {
-    let {id} = ctx.params
-    util.verifyId(id)
-    let tag = await Tag.findById(id)
-    if (!tag) {
-      throw new ApiError(ApiErrorNames.TAG_NOT_EXIST)
-    }
-    ctx.body = tag
-  },
+  // async getTag (ctx) {
+  //   let {id} = ctx.params
+  //   util.verifyId(id)
+  //   let tag = await Tag.findById(id)
+  //   console.log(tag)
+  //   if (!tag) {
+  //     throw new ApiError(ApiErrorNames.TAG_NOT_EXIST)
+  //   }
+  //   ctx.body = tag
+  // },
 
   async createTag (ctx) {
     let {name} = ctx.request.body
@@ -41,10 +43,10 @@ export default {
   async deleteTag (ctx) {
     let {id} = ctx.params
     util.verifyId(id)
-    let rows = await Tag.findByIdAndRemove(id).catch(() => {
+    let tag = await Tag.findByIdAndRemove(id).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
-    if (!rows) {
+    if (!tag) {
       throw new ApiError(ApiErrorNames.TAG_NOT_EXIST)
     }
   },
@@ -53,10 +55,10 @@ export default {
     let {id} = ctx.params
     util.verifyId(id)
     let {name} = ctx.request.body
-    let rows = await Tag.findByIdAndUpdate(id, {name}).catch(() => {
+    let tag = await Tag.findByIdAndUpdate(id, {name}).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
-    if (!rows) {
+    if (!tag) {
       throw new ApiError(ApiErrorNames.TAG_NOT_EXIST)
     }
   }

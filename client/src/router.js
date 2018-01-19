@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './views/Home.vue'
+function view (path) {
+  return resolve => require([`./views/${path}.vue`], resolve)
+}
 
 Vue.use(Router)
 
@@ -9,7 +11,7 @@ const router = new Router({
   routes: [{
     path: '/',
     name: 'Home',
-    component: Home
+    component: view('Home')
   }, {
     path: '*',
     redirect: {name: 'Home'}

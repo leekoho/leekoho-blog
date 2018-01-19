@@ -15,6 +15,7 @@ const config = {
       pwd: ''
     }
   },
+  // jsonwebtoken
   jwt: {
     secret: 'leekoho-blog',
     // token过期时间 => 24小时 * 30
@@ -23,7 +24,8 @@ const config = {
   admin: {
     username: 'leekoho',
     password: '12345678'
-  }
+  },
+  pageSize: 10
 }
 
 export default config

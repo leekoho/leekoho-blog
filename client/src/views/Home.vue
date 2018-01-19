@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>vvhj</div>
+  <div>client home</div>
 </template>
 
 <script lang="babel" type="es6">

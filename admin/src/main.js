@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import 'normalize.css'
-import Axios from 'axios'
+// import Axios from 'axios'
 
 Vue.config.productionTip = false
 
