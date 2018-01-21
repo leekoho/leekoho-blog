@@ -72,5 +72,6 @@ app.use(middleware())
 app.use(api())
 
 // 在端口3000监听:
+// app.listen(config.app.port, '0.0.0.0')
 app.listen(config.app.port)
 console.log(`app started at port ${config.app.port}...`)

@@ -4,6 +4,7 @@
  */
 import Article from '../models/article'
 import Comment from '../models/comment'
+import Tag from '../models/tag'
 import ApiError from '../error/ApiError'
 import ApiErrorNames from '../error/ApiErrorNames'
 import util from '../utils'
@@ -59,6 +60,8 @@ export default {
   },
 
   async getArticle (ctx, next) {
+    console.log(ctx)
+
     let {id} = ctx.params
     util.verifyId(id)
     let article = await Article.findById(id).populate('tags comments').catch(err => {
@@ -72,15 +75,20 @@ export default {
       await verify(ctx, next)
     }
     // 更新文章访问次数
-    await Article.findByIdAndUpdate(id, {visits: ++article.visits})
+    await Article.update({_id: id}, {$inc: {visits: 1}})
     ctx.body = article
   },
 
   async createArticle (ctx) {
     let {title, content, status, tags} = ctx.request.body
-    ctx.body = await Article.create({title, content, status, tags}).catch(() => {
+    let article = await Article.create({title, content, status, tags}).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
+    // 标签对应的文章数+1
+    tags.forEach(async (tagId) => {
+       await Tag.update({_id: tagId}, {$inc: {articleCount: 1}})
+    })
+    ctx.body = article
   },
 
   async deleteArticle (ctx) {
@@ -92,8 +100,11 @@ export default {
     if (!article) {
       throw new ApiError(ApiErrorNames.ARTICLE_NOT_EXIST)
     }
-    // 文章删除之后需要把对应的留言也给删除了
+    // 文章删除之后需要把对应的留言和也给删除了, 并且标签对应的文章数-1
     await Comment.remove({_id: {$in: article.comments}})
+    article.tags.forEach(async tagId => {
+      await Tag.update({_id: tagId}, {$inc: {articleCount: -1}})
+    })
   },
 
   async updateArticle (ctx) {
