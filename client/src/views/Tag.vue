@@ -1,5 +1,7 @@
 <template lang="html">
-  <div>client home</div>
+  <div class="tag">
+    Tag页面
+  </div>
 </template>
 
 <script lang="babel" type="es6">
@@ -16,5 +18,4 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass">
-
 </style>

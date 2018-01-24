@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
 const LinkSchema = new Schema({
   name: {type: String, required: true},
   url: {type: String, required: true},
-  introd: {type: String, required: true}
+  introd: {type: String, default: null}
 }, {versionKey: false})
 
 export default mongoose.model('Link', LinkSchema)

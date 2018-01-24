@@ -17,6 +17,7 @@ ApiErrorNames.TAG_NOT_EXIST = 'TAG_NOT_EXIST'
 ApiErrorNames.TAG_DELETE_ERROR = 'TAG_DELETE_ERROR'
 ApiErrorNames.LINK_NOT_EXIST = 'LINK_NOT_EXIST'
 ApiErrorNames.LINK_IS_EXIST = 'LINK_IS_EXIST'
+// ApiErrorNames.LINK_INTROD_NOT_NULL = 'LINK_INTROD_NOT_NULL'
 ApiErrorNames.COMMENT_NOT_EXIST = 'COMMENT_NOT_EXIST'
 ApiErrorNames.COMMENT_IS_REPLYED = 'COMMENT_IS_REPLYED'
 
@@ -43,6 +44,7 @@ errorMap.set(ApiErrorNames.TAG_DELETE_ERROR, {code: 403, message: '标签删除�
 
 errorMap.set(ApiErrorNames.LINK_NOT_EXIST, {code: 501, message: '友链不存在'})
 errorMap.set(ApiErrorNames.LINK_IS_EXIST, {code: 502, message: '友链已存在'})
+// errorMap.set(ApiErrorNames.LINK_INTROD_NOT_NULL, {code: 503, message: '友链简介不能为空'})
 
 errorMap.set(ApiErrorNames.COMMENT_NOT_EXIST, {code: 601, message: '评论不存在'})
 // errorMap.set(ApiErrorNames.COMMENT_IS_REPLYED, {code: 602, message: '评论已经回复过'})

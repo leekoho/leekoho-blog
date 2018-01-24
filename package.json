@@ -26,6 +26,7 @@
     "md5": "^2.2.1",
     "mongoose": "^4.13.9",
     "normalize.css": "^7.0.0",
+    "purecss": "^1.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

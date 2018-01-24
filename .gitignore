@@ -13,6 +13,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-server/logs/
+/server/logs
 /client/dist
 /admin/dist
