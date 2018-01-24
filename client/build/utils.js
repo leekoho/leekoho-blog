@@ -56,7 +56,7 @@ exports.cssLoaders = function (options) {
 
   // SASS配置
   function resolveResouce(name) {
-    return path.resolve(__dirname, '../src/assets/sass/' + name);
+    return path.resolve(__dirname, ('../src/assets/sass/' + name + '.sass'));
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
@@ -67,7 +67,7 @@ exports.cssLoaders = function (options) {
     sass: generateLoaders('sass', { indentedSyntax: true }).concat({
       loader: 'sass-resources-loader',
       options: {
-        resources: [resolveResouce('_variables.sass')]
+        resources: [resolveResouce('_variables'), resolveResouce('_mixins')]
       }
     }),
     scss: generateLoaders('sass'),
