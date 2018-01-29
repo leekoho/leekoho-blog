@@ -1,0 +1,64 @@
+@import "variables", "scaffold", "translate"
+
+html, body
+  font-family: $font-family
+  color: $black
+  font-size: $font-normal
+  font-weight: 300
+  line-height: 1.5
+
+a
+  text-decoration: none
+
+ol, ul, li
+  margin: 0
+  padding: 0
+  list-style: none
+
+::selection
+  color: $white
+  background: $green
+
+::-webkit-scrollbar
+  width: 6px
+  height: 8px
+
+::-webkit-scrollbar-track-piece
+  background-color: transparent
+
+::-webkit-scrollbar-thumb:vertical
+  background-color: $green
+
+::-webkit-scrollbar-thumb:horizontal
+  background-color: $green
+
+//.textfall
+  font-weight: 400
+  transition: color 0.3s
+  perspective: 1000px
+  &:hover
+    color: #afd6f0
+  &:before, &:after
+    position: absolute
+    top: 0
+    left: 0
+    content: attr(data-dummy)
+    opacity: 0
+    transition: transform 0.3s, opacity 0.3s, color 0.3s
+    pointer-events: none
+  &:before
+    color: #7db8de
+    transition-delay: 0.15s
+    transform: translateY(-100%) translateZ(100px) rotateX(30deg) rotateZ(-10deg)
+  &:after
+    color: #afd6f0
+    transform: translateY(-100%) translateZ(100px) rotateX(-30deg) rotateZ(10deg)
+  &:hover:before, &:hover:after
+    color: transparent
+    opacity: 1
+    transform: translateY(0) translateZ(0) rotateX(0) rotateZ(0)
+  &:hover:before
+    transition-delay: 0s
+  &:hover:after
+    transition-delay: 0.15s
+
