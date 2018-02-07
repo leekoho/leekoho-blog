@@ -1,9 +1,7 @@
 /**
  * Created by leekoho on 2018/1/25.
  */
-import markdown from 'markdown'
 
-console.log(markdown)
 Date.prototype.Format = function (fmt) { // author: meizz
   let o = {
     'M+': this.getMonth() + 1,                    // 月份
@@ -28,9 +26,5 @@ Date.prototype.Format = function (fmt) { // author: meizz
 export default {
   ymd (val) {
     return new Date(val).Format('yyyy-MM-dd') || '未知时间'
-  },
-
-  markdown (val) {
-    return markdown.parse(val || '')
   }
 }

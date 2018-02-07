@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="blog">
+  <div class="article-list">
     <article-item v-for="item in remoteData.articleList" :key="item._id" :item="item"></article-item>
   </div>
 </template>

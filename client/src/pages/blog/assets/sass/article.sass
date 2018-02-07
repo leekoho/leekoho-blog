@@ -1,0 +1,237 @@
+.article-detail__content img
+  max-width: 100%
+
+.article-detail__content span.light
+  color: #7f8c8d
+
+.article-detail__content span.info
+  font-size: .85em
+  display: inline-block
+  vertical-align: middle
+  width: 280px
+  margin-left: 20px
+
+.article-detail__content h1
+  margin: .8em 0
+  font-size: 2em
+
+.article-detail__content h2
+  margin: .8em 0
+  padding-bottom: 0
+  border-bottom: none
+
+.article-detail__content h2 a
+  color: #2c3e50
+
+.article-detail__content h2 a:hover
+  border-bottom: 2px solid $green
+
+.article-detail__content h3
+  margin: 1.2em 0
+  padding-left: 1em
+  position: relative
+
+.article-detail__content h3:before
+  content: "#"
+  color: $green
+  position: absolute
+  left: 0
+  top: -2px
+  font-size: 1.2em
+  font-weight: 700
+
+.article-detail__content h4
+  color: #7f8c8d
+  margin: 1.2em 0
+
+.article-detail__content .post, .article-detail__content .post-list
+  padding: 1em 0 2em
+  border-bottom: 1px solid #ddd
+
+.article-detail__content .post h2
+  margin: 2em 0 .8em
+  padding-bottom: .7em
+  border-bottom: 1px solid #ddd
+
+.article-detail__content figure, .article-detail__content ol, .article-detail__content p, .article-detail__content ul
+  margin: 1.2em 0
+
+.article-detail__content p
+  word-spacing: .05em
+
+.article-detail__content ol, .article-detail__content p, .article-detail__content ul
+  line-height: 1.6em
+
+.article-detail__content ol, .article-detail__content ul
+  padding-left: 1.5em
+
+.article-detail__content a
+  color: $green
+  font-weight: 600
+
+.article-detail__content blockquote
+  margin: 2em 0
+  padding-left: 20px
+  border-left: 4px solid $green
+
+.article-detail__content blockquote p
+  font-weight: 600
+  margin-left: 0
+
+.article-detail__content iframe
+  margin: 1em 0
+
+.article-detail__content p.tip
+  padding: 12px 24px 12px 30px
+  margin: 2em 0
+  border-left: 4px solid $red
+  background-color: $gray-light
+  position: relative
+  border-bottom-right-radius: 2px
+  border-top-right-radius: 2px
+
+.article-detail__content p.tip:before
+  position: absolute
+  top: 14px
+  left: -12px
+  background-color: $red
+  color: $white
+  content: "!"
+  width: 20px
+  height: 20px
+  border-radius: 100%
+  text-align: center
+  line-height: 20px
+  font-weight: 700
+  font-family: Dosis, Source Sans Pro, Helvetica Neue, Arial, sans-serif
+  font-size: 14px
+
+.article-detail__content pre
+  position: relative
+  font-family: $font-family-code
+  color: $white
+  background-color: $black
+  padding: 48px 18px 18px
+  line-height: 1.6
+  border-radius: 5px
+  -webkit-font-smoothing: initial
+  -moz-osx-font-smoothing: initial
+  overflow: auto
+  white-space: pre
+  &:before
+    content: ''
+    position: absolute
+    left: 0
+    top: 12px
+    width: 100%
+    height: 24px
+    background: url("./assets/images/window-controls.png") no-repeat 18px center / auto 12px
+
+
+//
+.article-detail__content code
+  color: #e96900
+  padding: 3px 5px
+  margin: 0 2px
+  border-radius: 2px
+  white-space: pre
+////
+//pre
+//  padding: 1.2em 1.4em
+//  line-height: 1.5em
+//  margin: 0
+//  margin-bottom: 1.2em
+//  color: $black
+
+//
+//.guide-links
+//  margin-top: 2em
+//  height: 1em
+//
+//.gutter pre
+//  color: #999
+//
+//pre
+//  color: #525252
+//
+//pre .function .keyword,
+//pre .constant
+//  color: #0092db
+//
+//pre .keyword,
+//pre .attribute
+//  color: #e96900
+//
+//pre .number,
+//pre .literal
+//  color: #ae81ff
+//
+//pre .tag,
+//pre .tag .title,
+//pre .change,
+//pre .winutils,
+//pre .flow,
+//pre .lisp .title,
+//pre .clojure .built_in,
+//pre .nginx .title,
+//pre .tex .special
+//  color: #2973b7
+//
+//pre .class .title
+//  color: $white
+//
+//pre .symbol,
+//pre .symbol .string,
+//pre .value,
+//pre .regexp
+//  color: $green
+//
+//pre .title
+//  color: #a6e22e
+//
+//pre .tag .value,
+//pre .string,
+//pre .subst,
+//pre .haskell .type,
+//pre .preprocessor,
+//pre .ruby .class .parent,
+//pre .built_in,
+//pre .sql .aggregate,
+//pre .django .template_tag,
+//pre .django .variable,
+//pre .smalltalk .class,
+//pre .javadoc,
+//pre .django .filter .argument,
+//pre .smalltalk .localvars,
+//pre .smalltalk .array,
+//pre .attr_selector,
+//pre .pseudo,
+//pre .addition,
+//pre .stream,
+//pre .envvar,
+//pre .apache .tag,
+//pre .apache .cbracket,
+//pre .tex .command,
+//pre .prompt
+//  color: $green
+//
+//pre .comment,
+//pre .java .annotation,
+//pre .python .decorator,
+//pre .template_comment,
+//pre .pi,
+//pre .doctype,
+//pre .deletion,
+//pre .shebang,
+//pre .apache .sqbracket,
+//pre .tex .formula
+//  color: #b3b3b3
+//
+//pre .coffeescript .javascript,
+//pre .javascript .xml,
+//pre .tex .formula,
+//pre .xml .javascript,
+//pre .xml .vbscript,
+//pre .xml .css,
+//pre .xml .cdata
+//  opacity: 0.5

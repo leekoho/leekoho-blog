@@ -3,10 +3,12 @@ import App from './App'
 import router from './router'
 import 'normalize.css'
 import Axios from 'axios'
+import '../../common/utils/markdown'
 import filters from '../../common/utils/filters'
+import Loading from './components/Loading.vue'
 
-Vue.prototype.markdown = filters.markdown
-// import markdown from './utils/markdown'
+Vue.component('loading', Loading)
+
 // 添加响应拦截器
 Axios.interceptors.response.use(response => {
   if (response.status === 200 && response.data.code === 0) {

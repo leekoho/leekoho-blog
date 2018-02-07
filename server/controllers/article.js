@@ -37,7 +37,7 @@ async function getArticleList(ctx, type) {
   // const limit = config.pageSize
   let skip = limit * (page - 1)
   let sort = {createTime: -1}
-  let articleList = await Article.find(queryConditions).limit(limit).skip(skip).sort(sort).populate({
+  let articleList = await Article.find(queryConditions).select('_id title summary createTime tags').limit(limit).skip(skip).sort(sort).populate({
     path: 'tags',
     model: 'Tag',
     select: '_id name'

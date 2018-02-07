@@ -2,8 +2,8 @@
   <header id="header">
     <!--<router-link :to="{name: 'Article'}" class="brand" data-dummy="leekoho-blog">leekoho-blog</router-link>-->
     <ul class="menu-list">
-      <router-link class="menu-list__item" v-for="menu in menuList" :key="menu.name" :to="{name: menu.name}"
-                   tag="li" exact>
+      <router-link class="menu-list__item" v-for="(menu, idx) in menuList" :key="menu.name" :to="{name: menu.name}"
+                   @mouseover.native="mouseover(idx)" @mouseout.native="mouseout" tag="li" exact>
         <a class="menu-list__link">{{menu.label}}</a>
       </router-link>
       <li class="menu-list__line" :style="[menuListLineStyle]"></li>
@@ -16,28 +16,46 @@
     data () {
       return {
         menuList: [{
-          label: 'Article',
-          name: 'ArticleList'
+          label: '文章',
+          name: 'Article'
         }, {
-          label: 'Tag',
+          label: '标签',
           name: 'Tag'
         }, {
-          label: 'Links',
-          name: 'Links'
-        }]
+          label: '友链',
+          name: 'Link'
+        }],
+        menuListLineStyle: {
+          transform: `translateX(0)`
+        },
+        last: null
       }
     },
-    computed: {
-      menuListLineStyle () {
-        for (let i = 0; i < this.menuList.length; i++) {
-          let item = this.menuList[i]
-          if (item.name === this.$route.name) {
-            return {
+    created () {
+      this.setProperPos()
+    },
+    methods: {
+      // 设置正确的位置
+      setProperPos () {
+        this.menuList.some((item, idx) => {
+          if (this.$route.name.indexOf(item.name) > -1) {
+            this.menuListLineStyle = {
               // width + margin-left
-              transform: `translateX(${(i) * (70 + 10)}px)`
+              transform: `translateX(${(idx) * (70 + 10)}px)`
             }
+            return true
           }
-        }
+        })
+      },
+      mouseover (idx) {
+        clearTimeout(this.last)
+        this.menuListLineStyle = {transform: `translateX(${(idx) * (70 + 10)}px)`}
+      },
+      mouseout () {
+        // 函数节流
+        this.last = setTimeout(() => {
+          this.setProperPos()
+        }, 200)
       }
     }
   }
@@ -46,10 +64,15 @@
 <style lang="sass" rel="stylesheet/sass">
   @import "../assets/sass/variables"
   #header
-    position: relative
+    position: fixed
+    left: 0
+    top: 0
+    width: calc(100% + #{$scrollbar-width})
     height: $header-height
+    background: $white
     box-shadow: 0 0 $header-shadow-blur-radius $gray
     user-select: none
+    z-index: 10
     .menu-list
       position: relative
       max-width: 1000px

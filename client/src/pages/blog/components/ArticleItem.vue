@@ -29,16 +29,32 @@
   @import "../assets/sass/variables"
   .article-item
     margin: 10px 0
-    padding: 10px 0
+    padding: 10px
+    // background: $white
     &:last-child
       border-bottom: none
     &__title
-      color: $green
+      position: relative
+      color: $black
       font-size: $font-large
       font-weight: 400
-      transition: color .2s
+      transition: all .2s
       &:hover
         color: $green
+      &:before
+        content: ''
+        position: absolute
+        left: 0
+        bottom: -5px
+        width: 100%
+        height: 2px
+        background: $green
+        transition: transform .2s ease
+        transform: scaleX(0)
+        opacity: 0
+      &:hover:before
+        transform: scaleX(1)
+        opacity: 1
     &__summary
       color: $gray
     &__footer

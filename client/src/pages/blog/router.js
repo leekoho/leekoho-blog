@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-function view (path) {
-  return resolve => require([`./views/${path}.vue`], resolve)
-}
+import Article from './views/article/List.vue'
+import ArticleDetail from './views/article/Detail.vue'
+import Tag from './views/Tag.vue'
+import Link from './views/Link.vue'
 
 Vue.use(Router)
 
@@ -11,20 +11,32 @@ const router = new Router({
   // mode: 'history',
   routes: [{
     path: '/article',
-    name: 'ArticleList',
-    component: view('article/List')
+    name: 'Article',
+    component: Article,
+    meta: {
+      keepAlive: true
+    }
   }, {
     path: '/article/:id',
     name: 'ArticleDetail',
-    component: view('article/Detail')
+    component: ArticleDetail,
+    meta: {
+      keepAlive: false
+    }
   }, {
     path: '/tag',
     name: 'Tag',
-    component: view('Tag')
+    component: Tag,
+    meta: {
+      keepAlive: true
+    }
   }, {
-    path: '/links',
-    name: 'Links',
-    component: view('Links')
+    path: '/link',
+    name: 'Link',
+    component: Link,
+    meta: {
+      keepAlive: true
+    }
   }, {
     path: '*',
     redirect: {name: 'Article'}

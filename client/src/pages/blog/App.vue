@@ -1,11 +1,16 @@
 <template>
   <div id="app">
     <v-header></v-header>
-    <transition mode="out-in" name="fade">
-      <div class="container">
-        <router-view/>
-      </div>
-    </transition>
+    <div class="container">
+      <keep-alive>
+        <!--<transition mode="out-in" name="fade">-->
+        <router-view v-if="$route.meta.keepAlive"/>
+        <!--</transition>-->
+      </keep-alive>
+      <!--<transition mode="out-in" name="fade">-->
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+      <!--</transition>-->
+    </div>
   </div>
 </template>
 
@@ -22,10 +27,15 @@
 
 <style lang="sass" rel="stylesheet/sass">
   @import "./assets/sass/main"
+  [v-cloak]
+    display: none
+
   .container
+    $gap: 30px
     max-width: 1000px
-    margin: 30px auto 0
+    margin: ($header-height + $gap) auto $gap
     & > div
-      margin-left: 10px
-      margin-right: 10px
+      $mx: 1em
+      margin-left: $mx
+      margin-right: $mx
 </style>
