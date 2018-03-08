@@ -13,6 +13,7 @@ import verify from '../middleware/verify'
 
 async function getArticleList(ctx, type) {
   let page = parseInt(ctx.query.page) || 1
+  let limit = parseInt(ctx.query.limit) || 10
   let queryConditions = null
   // 文章状态 1 => 已发布  0 => 未发布
   switch (type) {
@@ -33,10 +34,14 @@ async function getArticleList(ctx, type) {
     throw new ApiError(ApiErrorNames.PARAMETER_INVAILD)
   }
   // 一次只能查10条数据出来
-  const limit = config.pageSize
+  // const limit = config.pageSize
   let skip = limit * (page - 1)
   let sort = {createTime: -1}
-  let articleList = await Article.find(queryConditions).limit(limit).skip(skip).sort(sort).populate('tags').catch(err => {
+  let articleList = await Article.find(queryConditions).select('_id title summary createTime tags').limit(limit).skip(skip).sort(sort).populate({
+    path: 'tags',
+    model: 'Tag',
+    select: '_id name'
+  }).catch(err => {
     throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
   })
   let totalLength = await Article.count(queryConditions).catch(() => {
@@ -60,11 +65,9 @@ export default {
   },
 
   async getArticle (ctx, next) {
-    console.log(ctx)
-
     let {id} = ctx.params
     util.verifyId(id)
-    let article = await Article.findById(id).populate('tags comments').catch(err => {
+    let article = await Article.findById(id).populate('Tag Comments').catch(err => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     if (!article) {
@@ -80,8 +83,8 @@ export default {
   },
 
   async createArticle (ctx) {
-    let {title, content, status, tags} = ctx.request.body
-    let article = await Article.create({title, content, status, tags}).catch(() => {
+    let {title, content, status, tags, summary} = ctx.request.body
+    let article = await Article.create({title, content, status, tags, summary}).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })
     // 标签对应的文章数+1
@@ -109,10 +112,10 @@ export default {
 
   async updateArticle (ctx) {
     let {id} = ctx.params
-    let {title, content, status} = ctx.request.body
+    let {title, content, status, tags, summary} = ctx.request.body
     util.verifyId(id)
     let updateCount = await Article.findByIdAndUpdate(id, {
-      title, content, status, updateTime: Date.now()
+      title, content, status, tags, summary, updateTime: Date.now()
     }).catch(() => {
       throw new ApiError(ApiErrorNames.UNKNOW_ERROR)
     })

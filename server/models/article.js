@@ -11,6 +11,8 @@ const ArticleSchema = new Schema({
     required: true,
     maxlength: [20, '标题长度不能超过20个字符']
   },
+  // 文章摘要
+  summary: {type: String, default: null},
   // 文章内容 储存Markdown格式的
   content: {type: String, required: true},
   // 标签

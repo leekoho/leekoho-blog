@@ -1,5 +1,4 @@
 .DS_Store
-node_modules/
 /dist/
 npm-debug.log*
 yarn-debug.log*
@@ -13,6 +12,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-/server/logs
-/client/dist
-/admin/dist
+/*/dist/
+/*/node_modules
+/server/logs/
