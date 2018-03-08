@@ -21,10 +21,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "gulp": "^3.9.1",
-    "gulp-scp2": "^0.2.0",
-    "gulp-sequence": "^1.0.0"
+    "babel-preset-stage-2": "^6.24.1"
   },
   "scripts": {
     "dev": "nodemon start.js"
